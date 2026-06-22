@@ -1,29 +1,13 @@
-/**
- * @param {string} s
- * @return {number}
- */
+
 var lengthOfLongestSubstring = function(s) {
-
-    let number = 0;
-
+    let left = 0, right = 0, max = +!!s.length;
+    let o = new Array(128).fill(-1);
     for (let i = 0; i < s.length; i++) {
-
-        let seen = new Set();
-
-        for (let j = i; j < s.length; j++) {
-
-            // Duplicate found
-            if (seen.has(s[j])) {
-                break;
-            }
-
-            // Add character
-            seen.add(s[j]);
-        }
-
-        // Update maximum length
-        number = Math.max(number, seen.size);
+        right++;
+        let code = s.charCodeAt(i);
+        left = Math.max(left, o[code] + 1);
+        o[code] = i;
+        if (right - left > max) max = right - left;
     }
-
-    return number;
+    return max;
 };
